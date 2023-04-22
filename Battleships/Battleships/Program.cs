@@ -13,14 +13,23 @@ while (true)
     {
         presenter.DrawMainScreen(myBattleField, enemyBattleField);
 
-        (x, y) = presenter.GetInput();
-        oneShoot = enemyBattleField.Shoot(x,y);
- 
-        if (enemyBattleField.IsAllDestroyed())
+        try
         {
-            presenter.GameOver(true, myBattleField, enemyBattleField);
-            return;
+            (x, y) = presenter.GetInput();
+            oneShoot = enemyBattleField.Shoot(x, y);
+
+            if (enemyBattleField.IsAllDestroyed())
+            {
+                presenter.GameOver(true, myBattleField, enemyBattleField);
+                return;
+            }
         }
+        catch(ArgumentOutOfRangeException)
+        {
+            // in case of error just try again
+            oneShoot = FieldItem.BattleshipHit;
+        }
+
     }
     while (oneShoot == FieldItem.BattleshipHit || oneShoot == FieldItem.DestroyerHit);
 

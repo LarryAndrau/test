@@ -23,20 +23,20 @@ namespace Battleships
         {
             Console.WriteLine("Enter you shoot (for example C6, or press Ctrl-C for exit):");
             var shoot = Console.ReadLine();
-            try
-            {
-                int y = shoot[0] - 65;
-                //Console.WriteLine($"code = {x}");
-                int x = shoot[1] - 48;
-                if (x > 9 || y > 9)
-                    throw new ArgumentOutOfRangeException();
-                return (x, y);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Incorrecct input. Try again.");
-            }
-            return (0,0);
+
+            if(shoot == null || shoot.Length < 2)
+                throw new ArgumentOutOfRangeException();
+
+            int y = shoot[0] - 65;
+            if (y > 31)
+                y -= 32;
+
+            int x = shoot[1] - 48;
+
+            if (x > 9 || y > 9)
+                throw new ArgumentOutOfRangeException();
+
+            return (x, y);
         }
 
         private void DrawField(IBattle battleField, bool showAll = false)
